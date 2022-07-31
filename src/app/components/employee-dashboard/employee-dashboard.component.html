@@ -1,0 +1,171 @@
+<nav class="navbar navbar-light bg-info">
+    <div class="container-fluid">
+        <h1 style="color:white">Angular CRUD</h1>
+        <div class="d-flex">
+            <button data-toggle="modal" data-target="#addModal" class="btn btn-warning"><b>Add Employe</b></button>
+            <button routerLink="/login" class="btn btn-light mx-2">Logout</button>
+        </div>
+    </div>
+</nav>
+
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th scope="col">Employee Image</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Salary</th>
+            <th scope="col">Edit / Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr key="employe.id" *ngFor="let employe of employeeList">
+            <td>
+                <img src={{employe.image}} width="60" height="60" alt="employe.firstname + employe.lastName">
+            </td>
+            <td>{{employe.firstName}}</td>
+            <td>{{employe.lastName}}</td>
+            <td>{{employe.email}}</td>
+            <td>{{employe.phone}}</td>
+            <td>{{employe.salary}}</td>
+            <td>
+                <button (click)="updateEmploye(employe.id)" style="margin-right: 5px;" class="btn btn-success"
+                    data-toggle="modal" data-target="#editModal">Edit</button>
+                <button (click)="deleteEmployee(employe.id)" class="btn btn-danger">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Add Modal -->
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add New Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="employeeForm">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">First Name</label>
+                        <input formControlName="firstName" type="text" class="form-control"
+                            placeholder="Enter First Name">
+                        <small *ngIf="employeeForm.get('firstName')?.hasError('required')"
+                            class="form-text text-muted"><span style="color:red; font-weight: bold;">The First Name
+                                field is required.</span></small>
+                        <small *ngIf="employeeForm.get('firstName')?.hasError('minlength')"
+                            class="form-text text-muted"><span style="color:red;font-weight: bold;">First Name must be
+                                at least 3 characters.</span></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Last Name</label>
+                        <input formControlName="lastName" type="text" class="form-control"
+                            placeholder="Enter Last Name">
+                        <small *ngIf="employeeForm.get('lastName')?.hasError('required')"
+                            class="form-text text-muted"><span style="color:red; font-weight: bold;">The Last Name field
+                                is required.</span></small>
+                        <small *ngIf="employeeForm.get('lastName')?.hasError('minlength')"
+                            class="form-text text-muted"><span style="color:red; font-weight: bold;">Last Name must be
+                                at least 3 characters.</span></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email</label>
+                        <input formControlName="email" type="email" class="form-control" placeholder="Enter Email">
+                        <small *ngIf="employeeForm.get('email')?.hasError('required')"
+                            class="form-text text-muted"><span style="color:red; font-weight: bold;">The Email field is
+                                required.</span></small>
+                        <small *ngIf="employeeForm.get('email')?.hasError('email')" class="form-text text-muted"><span
+                                style="color:red; font-weight: bold;">Email format is not correct.</span></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Phone Number</label>
+                        <input formControlName="phone" type="number" class="form-control"
+                            placeholder="Enter Phone Number">
+                        <small *ngIf="!employeeForm.value.phone" class="form-text text-muted"><span
+                                style="color:red; font-weight: bold;">We'll never
+                                share your phone number with anyone
+                                else.</span></small>
+                        <small *ngIf="employeeForm.get('phone')?.hasError('required')"
+                            class="form-text text-muted"><span style="color:red; font-weight: bold;">The phone field is
+                                required.</span></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Salary</label>
+                        <input formControlName="salary" type="number" class="form-control" placeholder="Enter $ Salary">
+                        <small *ngIf="employeeForm.get('salary')?.hasError('required')"
+                            class="form-text text-muted"><span style="color:red; font-weight: bold;">The salary field is
+                                required.</span></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Image</label>
+                        <input formControlName="image" type="text" class="form-control" placeholder="Enter Image">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+                <button (click)="postEmployee()" [disabled]="employeeForm.invalid" type="button"
+                    class="btn btn-success">Save Employee</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  Edit Modal -->
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="editForm">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">First Name</label>
+                        <input [value]="editForm.value.firstName" formControlName="firstName" type="text"
+                            class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Last Name</label>
+                        <input [value]="editForm.value.lastName" formControlName="lastName" type="text"
+                            class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email</label>
+                        <input [value]="editForm.value.email" formControlName="email" type="email" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Phone Number</label>
+                        <input [value]="editForm.value.phone" formControlName="phone" type="number"
+                            class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Salary</label>
+                        <input [value]="editForm.value.salary" formControlName="salary" type="number"
+                            class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Image</label>
+                        <input formControlName="image" type="text" class="form-control">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+                <button (click)="updatedEmployee()" [disabled]="editForm.invalid" type="button"
+                    class="btn btn-success">Update Changes</button>
+            </div>
+        </div>
+    </div>
+</div>

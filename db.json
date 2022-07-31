@@ -1,0 +1,31 @@
+{
+  "posts": [
+    {
+      "id": "f68c78a6-6583-41b7-9a0c-03c3c52703be",
+      "firstName": "Karimmmm",
+      "lastName": "Benzema",
+      "email": "karimbenzema@gmail.com",
+      "phone": 535000111,
+      "salary": 120002,
+      "image": "https://cdn.ntvspor.net/4df18697c54543b18811719f15b8aa14.png?mode=crop&w=940&h=626"
+    },
+    {
+      "id": "aa4a6c01-7945-4fde-ae7e-33272e3524d8",
+      "firstName": "Lionel",
+      "lastName": "Messi12",
+      "email": "lionelmessi@gmail.com",
+      "phone": 531222333,
+      "salary": 130000,
+      "image": "https://assets.goal.com/v3/assets/bltcc7a7ffd2fbf71f5/blte0aac921c3798f1e/61a633990039cb54c5e25acb/Lionel_Messi_(10).jpg"
+    }
+  ],
+  "signupUsers": [
+    {
+      "username": "Cristiano Ronaldo",
+      "phone": 5326400204,
+      "email": "cristianoronaldo@gmail.com",
+      "password": "123456",
+      "id": 1
+    }
+  ]
+}
